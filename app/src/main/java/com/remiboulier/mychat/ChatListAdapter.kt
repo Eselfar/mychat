@@ -5,7 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.TextView
+import android.widget.LinearLayout
+import kotlinx.android.synthetic.main.item_list_chat_penpal.view.*
 
 
 /**
@@ -14,15 +15,40 @@ import android.widget.TextView
  */
 
 class ChatListAdapter(private val items: MutableList<String>, context: Context)
-    : ArrayAdapter<String>(context, android.R.layout.simple_list_item_1) {
+    : ArrayAdapter<String>(context, 0) {
+
+    companion object {
+        const val VIEW_TYPE_COUNT = 2
+        const val TYPE_USER = 0
+        const val TYPE_PENPAL = 1
+    }
 
     override fun getCount() = items.size
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view = (convertView
-                ?: LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1, parent, false)) as TextView
+    override fun getItemViewType(position: Int) =
+            if (position.rem(2) == 0) TYPE_USER else TYPE_PENPAL
 
-        view.text = items[position]
+    override fun getViewTypeCount(): Int {
+        return VIEW_TYPE_COUNT
+    }
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+
+        val view: View
+        when (getItemViewType(position)) {
+            TYPE_USER -> {
+                view = (convertView
+                        ?: LayoutInflater.from(parent.context).inflate(R.layout.item_list_chat_user, parent, false)) as LinearLayout
+                view.itemText.text = items[position]
+            }
+            TYPE_PENPAL -> {
+                view = (convertView
+                        ?: LayoutInflater.from(parent.context).inflate(R.layout.item_list_chat_penpal, parent, false)) as LinearLayout
+                view.itemText.text = items[position]
+            }
+            else -> throw RuntimeException("Type not defined")
+        }
+
 
         return view
     }

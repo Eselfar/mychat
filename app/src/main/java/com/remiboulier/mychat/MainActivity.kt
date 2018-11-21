@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        homeList.adapter = ChatListAdapter(mutableListOf(), this)
+        homeList.adapter = ChatListAdapter(mutableListOf("Test 45 afafasf sdf", "Liorenm asdasi upaegege"), this)
 
         homeBtnSend.setOnClickListener { onButtonPressed() }
     }
