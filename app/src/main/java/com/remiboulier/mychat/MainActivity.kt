@@ -1,25 +1,67 @@
 package com.remiboulier.mychat
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var onLayoutChangeListener: View.OnLayoutChangeListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         homeList.adapter = ChatListAdapter(mutableListOf("Test 45 afafasf sdf", "Liorenm asdasi upaegege"), this)
-
         homeBtnSend.setOnClickListener { onButtonPressed() }
     }
 
     fun onButtonPressed() {
         if (!homeMessageField.text.isBlank()) {
-            (homeList.adapter as ChatListAdapter).addItem(homeMessageField.text.toString())
-            homeMessageField.text.clear()
+            val text = homeMessageField.text.toString()
+            onLayoutChangeListener = onLayoutChangeListener(text)
+            homeMovingText.addOnLayoutChangeListener(onLayoutChangeListener)
+            homeMovingText.text = text
+        }
+    }
+
+    fun onLayoutChangeListener(text: String): View.OnLayoutChangeListener =
+            View.OnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+                homeMovingText.removeOnLayoutChangeListener(onLayoutChangeListener)
+                homeMovingText.visibility = View.VISIBLE
+                homeMessageField.text.clear()
+                animate {
+                    (homeList.adapter as ChatListAdapter).addItem(text)
+                    homeMovingText.visibility = View.INVISIBLE
+                }
+            }
+
+    fun animate(onAnimationEndCallback: () -> Unit) {
+        val endX = homeList.right - homeMovingText.width
+        val endY = homeList.bottom - homeMovingText.bottom
+        val translateX = ObjectAnimator.ofFloat(homeMovingText, "translationX", 0f, endX.toFloat()).apply {
+            duration = 800
+        }
+        val translateY = ObjectAnimator.ofFloat(homeMovingText, "translationY", 0f, endY.toFloat()).apply {
+            duration = 800
+        }
+        AnimatorSet().apply {
+            playTogether(translateX, translateY)
+            addListener(onAnimationEnd(onAnimationEndCallback))
+            start()
+        }
+    }
+
+    fun onAnimationEnd(onAnimationEndCallback: () -> Unit) = object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
+            super.onAnimationEnd(animation)
+            onAnimationEndCallback()
         }
     }
 }
