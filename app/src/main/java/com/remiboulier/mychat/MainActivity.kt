@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        homeList.adapter = ChatListAdapter(mutableListOf("Test 45 afafasf sdf", "Liorenm asdasi upaegege"), this)
+        homeList.adapter = ChatListAdapter(mutableListOf(), this)
         homeBtnSend.setOnClickListener { onButtonPressed() }
     }
 
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 homeMovingText.visibility = View.VISIBLE
                 homeMessageField.text.clear()
                 animate {
-                    (homeList.adapter as ChatListAdapter).addItem(text)
+                    (homeList.adapter as ChatListAdapter).addUserMessage(text)
                     homeMovingText.visibility = View.INVISIBLE
                 }
             }
