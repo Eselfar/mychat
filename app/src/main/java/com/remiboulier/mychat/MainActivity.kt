@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.remiboulier.mychat.util.generateDummyChatList
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        homeList.adapter = ChatListAdapter(mutableListOf(), this)
+        homeList.adapter = ChatListAdapter(this, generateDummyChatList())
         homeBtnSend.setOnClickListener { onButtonPressed() }
     }
 

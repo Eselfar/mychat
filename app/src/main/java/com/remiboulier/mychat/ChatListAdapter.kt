@@ -23,8 +23,8 @@ import java.util.*
  * email: boulier.r.job@gmail.com
  */
 
-class ChatListAdapter(private val items: MutableList<Item>,
-                      context: Context)
+class ChatListAdapter(context: Context,
+                      private val items: MutableList<Item>)
     : ArrayAdapter<Item>(context, 0) {
 
     companion object {
@@ -72,7 +72,7 @@ class ChatListAdapter(private val items: MutableList<Item>,
 
     fun getSeparatorView(convertView: View?, parent: ViewGroup, item: TimeSeparator): View =
             inflateView(convertView, parent, R.layout.item_list_chat_separator).apply {
-                separatorTime.text = (item as TimeSeparator).timestamp.toReadableDate()
+                separatorTime.text = item.timestamp.toReadableDate()
             }
 
     fun inflateView(convertView: View?, parent: ViewGroup, @LayoutRes layoutRes: Int) =

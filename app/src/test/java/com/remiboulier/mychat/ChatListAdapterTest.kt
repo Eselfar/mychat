@@ -22,8 +22,8 @@ class ChatListAdapterTest {
     fun getItemViewType_is_user() {
         val item = Message("Text", Date(), true, false)
         val adapter = ChatListAdapter(
-                mutableListOf(mock(Item::class.java), item),
-                mock(Context::class.java))
+                mock(Context::class.java),
+                mutableListOf(mock(Item::class.java), item))
 
         val res = adapter.getItemViewType(1)
 
@@ -34,8 +34,8 @@ class ChatListAdapterTest {
     fun getItemViewType_is_contact() {
         val item = Message("Text", Date(), false, false)
         val adapter = ChatListAdapter(
-                mutableListOf(mock(Item::class.java), item),
-                mock(Context::class.java))
+                mock(Context::class.java),
+                mutableListOf(mock(Item::class.java), item))
 
         val res = adapter.getItemViewType(1)
 
@@ -46,8 +46,8 @@ class ChatListAdapterTest {
     fun getItemViewType_is_separator() {
         val item = TimeSeparator(Date())
         val adapter = ChatListAdapter(
-                mutableListOf(mock(Item::class.java), item),
-                mock(Context::class.java))
+                mock(Context::class.java),
+                mutableListOf(mock(Item::class.java), item))
 
         val res = adapter.getItemViewType(1)
 
@@ -58,8 +58,8 @@ class ChatListAdapterTest {
     fun getCount() {
         val size = 3
         val adapter = ChatListAdapter(
-                MutableList(size) { mock(Item::class.java) },
-                mock(Context::class.java))
+                mock(Context::class.java),
+                MutableList(size) { mock(Item::class.java) })
 
         assertEquals(size, adapter.count)
     }

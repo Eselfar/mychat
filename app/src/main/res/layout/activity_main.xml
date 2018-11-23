@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
-        tools:background="#e79f9f"
         android:divider="@null"
         android:dividerHeight="0dp"
         android:stackFromBottom="true"
@@ -19,15 +18,16 @@
         app:layout_constraintBottom_toTopOf="@+id/homeContainer"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="#e79f9f" />
 
     <LinearLayout
         android:id="@+id/homeContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:background="#d49fe7"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:background="#d49fe7">
 
         <EditText
             android:id="@+id/homeMessageField"
@@ -36,11 +36,11 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="Hello World!"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Hello World!" />
 
         <Button
             android:id="@+id/homeBtnSend"
@@ -51,13 +51,13 @@
     </LinearLayout>
 
     <TextView
-        tools:visibility="visible"
-        android:visibility="invisible"
         android:id="@+id/homeMovingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bubble_right_tail"
         android:gravity="center_vertical"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="edsfsd nkl alsda\nfdsofsdpoewrewkljfsjklkljqpriowr\sfdfdsjf\nejdsfjsdflkjlkewrwerlkwrwerjkljdsflkjksdf\vsvsjlkfsdf" />
+        tools:text="edsfsd nkl alsda\nfdsofsdpoewrewkljfsjklkljqpriowr\sfdfdsjf\nejdsfjsdflkjlkewrwerlkwrwerjkljdsflkjksdf\vsvsjlkfsdf"
+        tools:visibility="visible" />
 </android.support.constraint.ConstraintLayout>
