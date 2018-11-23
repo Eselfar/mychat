@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         if (!homeMessageField.text.isBlank()) {
             val text = homeMessageField.text.toString()
             onLayoutChangeListener = getOnLayoutChangeListener(text)
+            // LayoutChangeListener is required as we need to wait for the TextView to redraw before playing the animation
             homeMovingText.addOnLayoutChangeListener(onLayoutChangeListener)
             homeMovingText.text = text
         }
