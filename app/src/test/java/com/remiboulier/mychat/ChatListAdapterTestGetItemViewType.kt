@@ -16,7 +16,7 @@ import java.util.*
  * email: boulier.r.job@gmail.com
  */
 @RunWith(MockitoJUnitRunner::class)
-class ChatListAdapterTest {
+class ChatListAdapterTestGetItemViewType {
 
     @Test
     fun getItemViewType_is_user() {
@@ -52,15 +52,5 @@ class ChatListAdapterTest {
         val res = adapter.getItemViewType(1)
 
         assertEquals(ChatListAdapter.TYPE_SEPARATOR, res)
-    }
-
-    @Test
-    fun getCount() {
-        val size = 3
-        val adapter = ChatListAdapter(
-                mock(Context::class.java),
-                MutableList(size) { mock(Item::class.java) })
-
-        assertEquals(size, adapter.count)
     }
 }
