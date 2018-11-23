@@ -1,4 +1,4 @@
-package com.remiboulier.mychat
+package com.remiboulier.mychat.model
 
 import java.util.*
 
@@ -8,5 +8,5 @@ import java.util.*
  */
 sealed class Item
 
-data class Message(val text: String, val timestamp: Date, val user: Boolean, var hasTail: Boolean) : Item()
+data class Message(val text: String, val timestamp: Date, val user: Boolean, var hasTail: Boolean, var isVisible: Boolean = true) : Item()
 data class TimeSeparator(val timestamp: Date) : Item()

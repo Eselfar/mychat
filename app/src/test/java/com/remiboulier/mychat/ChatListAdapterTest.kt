@@ -1,7 +1,10 @@
 package com.remiboulier.mychat
 
 import android.content.Context
-import junit.framework.Assert.assertEquals
+import com.remiboulier.mychat.model.Item
+import com.remiboulier.mychat.model.Message
+import com.remiboulier.mychat.model.TimeSeparator
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
@@ -49,5 +52,15 @@ class ChatListAdapterTest {
         val res = adapter.getItemViewType(1)
 
         assertEquals(ChatListAdapter.TYPE_SEPARATOR, res)
+    }
+
+    @Test
+    fun getCount() {
+        val size = 3
+        val adapter = ChatListAdapter(
+                MutableList(size) { mock(Item::class.java) },
+                mock(Context::class.java))
+
+        assertEquals(size, adapter.count)
     }
 }

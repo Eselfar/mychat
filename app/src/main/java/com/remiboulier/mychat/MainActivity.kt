@@ -25,38 +25,41 @@ class MainActivity : AppCompatActivity() {
     fun onButtonPressed() {
         if (!homeMessageField.text.isBlank()) {
             val text = homeMessageField.text.toString()
-            onLayoutChangeListener = onLayoutChangeListener(text)
+            onLayoutChangeListener = getOnLayoutChangeListener(text)
             homeMovingText.addOnLayoutChangeListener(onLayoutChangeListener)
             homeMovingText.text = text
         }
     }
 
-    fun onLayoutChangeListener(text: String): View.OnLayoutChangeListener =
+    fun getOnLayoutChangeListener(text: String): View.OnLayoutChangeListener =
             View.OnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
                 homeMovingText.removeOnLayoutChangeListener(onLayoutChangeListener)
                 homeMovingText.visibility = View.VISIBLE
                 homeMessageField.text.clear()
+                (homeList.adapter as ChatListAdapter).addUserMessageHidden(text)
                 animate {
-                    (homeList.adapter as ChatListAdapter).addUserMessage(text)
                     homeMovingText.visibility = View.INVISIBLE
+                    (homeList.adapter as ChatListAdapter).showLastMessage()
                 }
             }
 
     fun animate(onAnimationEndCallback: () -> Unit) {
         val endX = homeList.right - homeMovingText.width
         val endY = homeList.bottom - homeMovingText.bottom
-        val translateX = ObjectAnimator.ofFloat(homeMovingText, "translationX", 0f, endX.toFloat()).apply {
-            duration = 800
-        }
-        val translateY = ObjectAnimator.ofFloat(homeMovingText, "translationY", 0f, endY.toFloat()).apply {
-            duration = 800
-        }
+        val translateX = getTranslationAnimator(homeMovingText, "translationX", endX)
+        val translateY = getTranslationAnimator(homeMovingText, "translationY", endY)
+
         AnimatorSet().apply {
             playTogether(translateX, translateY)
             addListener(onAnimationEnd(onAnimationEndCallback))
             start()
         }
     }
+
+    fun getTranslationAnimator(target: View, propertyName: String, endPosition: Int) =
+            ObjectAnimator.ofFloat(target, propertyName, 0f, endPosition.toFloat()).apply {
+                duration = 800
+            }
 
     fun onAnimationEnd(onAnimationEndCallback: () -> Unit) = object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {

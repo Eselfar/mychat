@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import com.remiboulier.mychat.extension.toReadableDate
+import com.remiboulier.mychat.model.Item
+import com.remiboulier.mychat.model.Message
+import com.remiboulier.mychat.model.TimeSeparator
 import kotlinx.android.synthetic.main.item_list_chat_penpal.view.*
 import kotlinx.android.synthetic.main.item_list_chat_separator.view.*
 import java.util.*
@@ -53,6 +56,7 @@ class ChatListAdapter(private val items: MutableList<Item>,
                         ?: LayoutInflater.from(parent.context).inflate(R.layout.item_list_chat_user, parent, false)) as LinearLayout
                 view.itemText.text = (item as Message).text
                 view.itemText.setBackgroundResource(if (item.hasTail) R.drawable.bubble_right_tail else R.drawable.bubble_right)
+                view.itemText.visibility = if (item.isVisible) View.VISIBLE else View.INVISIBLE
             }
             TYPE_CONTACT -> {
                 view = (convertView
@@ -71,7 +75,7 @@ class ChatListAdapter(private val items: MutableList<Item>,
         return view
     }
 
-    fun addUserMessage(text: String) {
+    fun addUserMessageHidden(text: String) {
         val currentTime = Date()
 
         if (items.size == 0) {
@@ -86,8 +90,13 @@ class ChatListAdapter(private val items: MutableList<Item>,
             }
         }
 
-        val message = Message(text, currentTime, true, true)
+        val message = Message(text, currentTime, true, true, false)
         items.add(message)
+        notifyDataSetChanged()
+    }
+
+    fun showLastMessage() {
+        (items[items.size - 1] as Message).isVisible = true
         notifyDataSetChanged()
     }
 }
